@@ -13,9 +13,11 @@ defmodule FlySwatter.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: FlySwatter.PubSub},
       # Start the Endpoint (http/https)
-      FlySwatterWeb.Endpoint
+      FlySwatterWeb.Endpoint,
       # Start a worker by calling: FlySwatter.Worker.start_link(arg)
       # {FlySwatter.Worker, arg}
+      {Finch, name: FlySwatter.Finch},
+      FlySwatter.PingerSupervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

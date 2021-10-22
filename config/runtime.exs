@@ -19,15 +19,26 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
+  app_name =
+    System.get_env("FLY_APP_NAME") ||
+      raise "FLY_APP_NAME not available"
+
   config :fly_swatter, FlySwatterWeb.Endpoint,
+    server: true,
+    url: [host: "#{app_name}.fly.dev", port: 80],
     http: [
-      # Enable IPv6 and bind on all interfaces.
-      # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
-      # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
-      # for details about using IPv6 vs IPv4 and loopback vs public addresses.
-      ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: String.to_integer(System.get_env("PORT") || "4000")
+      port: String.to_integer(System.get_env("PORT") || "4000"),
+      # IMPORTANT: support IPv6 addresses
+      transport_options: [socket_opts: [:inet6]]
     ],
+    # http: [
+    #   # Enable IPv6 and bind on all interfaces.
+    #   # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
+    #   # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
+    #   # for details about using IPv6 vs IPv4 and loopback vs public addresses.
+    #   ip: {0, 0, 0, 0, 0, 0, 0, 0},
+    #   port: String.to_integer(System.get_env("PORT") || "4000")
+    # ],
     secret_key_base: secret_key_base
 
   # ## Using releases

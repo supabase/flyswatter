@@ -44,6 +44,13 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :tesla, :adapter, {Tesla.Adapter.Finch, name: FlySwatter.Finch, receive_timeout: 60_000}
+
+config :fly_swatter, FlySwatter.DynamicClient,
+  api_key: System.get_env("FS_LOGFLARE_API_KEY"),
+  source: System.get_env("FS_LOGFLARE_SOURCE"),
+  supabase_projects_endpoint_id: System.get_env("FS_LOGFLARE_ENDPOINT")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
