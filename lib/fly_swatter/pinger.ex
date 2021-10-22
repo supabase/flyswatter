@@ -40,7 +40,13 @@ defmodule FlySwatter.Pinger do
   end
 
   defp to_logflare({:ok, response}) do
-    metadata = %{status_code: response.status, url: response.url, method: response.method}
+    metadata = %{
+      status_code: response.status,
+      url: response.url,
+      method: response.method,
+      region: System.get_env("FLY_REGION", "not found")
+    }
+
     message = "Pinged " <> response.url <> " successfully"
 
     LogflareClient.new()

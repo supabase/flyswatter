@@ -46,10 +46,10 @@ config :phoenix, :json_library, Jason
 
 config :tesla, :adapter, {Tesla.Adapter.Finch, name: FlySwatter.Finch, receive_timeout: 60_000}
 
-config :fly_swatter, FlySwatter.DynamicClient,
-  api_key: System.get_env("FS_LOGFLARE_API_KEY"),
-  source: System.get_env("FS_LOGFLARE_SOURCE"),
-  supabase_projects_endpoint_id: System.get_env("FS_LOGFLARE_ENDPOINT")
+config :fly_swatter, FlySwatter.LogflareClient,
+  api_key: System.get_env("FS_LOGFLARE_API_KEY", "not_found"),
+  source: System.get_env("FS_LOGFLARE_SOURCE", "not_found"),
+  supabase_projects_endpoint_id: System.get_env("FS_LOGFLARE_ENDPOINT", "not_found")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
