@@ -30,7 +30,7 @@ defmodule FlySwatter.PingerManager do
 
   defp gen_supabase_project_stacks(projects) when is_list(projects) do
     for %{"project" => project_id} <- projects do
-      uri = "https://" <> project_id <> ".supabase.co/"
+      uri = "https://" <> project_id <> ".supabase.co/rest/v1/"
       URI.parse(uri)
     end
   end
