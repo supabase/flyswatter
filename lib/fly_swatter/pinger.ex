@@ -42,7 +42,7 @@ defmodule FlySwatter.Pinger do
   defp to_logflare({:error, reason}) do
     metadata = %{
       error: inspect(reason),
-      leve: :error,
+      level: :error,
       region: System.get_env("FLY_REGION", "not found")
     }
 
