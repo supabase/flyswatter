@@ -19,7 +19,7 @@ defmodule FlySwatter.PingerManager do
   end
 
   defp my_stack(project_id) do
-    uri = "https://" <> project_id <> ".supabase.co/rest/v1/health_check?select=*"
+    uri = "https://" <> project_id <> ".supabase.co/rest/v1/metrics?select=*"
 
     %{
       uri: URI.parse(uri),
