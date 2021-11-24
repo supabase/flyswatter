@@ -24,24 +24,13 @@ defmodule FlySwatter.PingerManager do
     %{
       uri: URI.parse(uri),
       headers: [
-        {"apikey", "KEY"},
-        {"authorization", "Bearer KEY"}
+        {"apikey", supabase_key()},
+        {"authorization", "Bearer #{supabase_key()}"}
       ]
     }
   end
 
-  # defp get_supabase_project_ids() do
-  #   {:ok, %Tesla.Env{body: %{"result" => projects}}} =
-  #     LogflareClient.new()
-  #     |> LogflareClient.get_supabase_projects()
-  #
-  #   projects
-  # end
-  #
-  # defp gen_supabase_project_stacks(projects) when is_list(projects) do
-  #   for %{"project" => project_id} <- projects do
-  #     uri = "https://" <> project_id <> ".supabase.co/rest/v1/"
-  #     URI.parse(uri)
-  #   end
-  # end
+  defp supabase_key() do
+    System.get_env("FS_SUPABASE_KEY")
+  end
 end
