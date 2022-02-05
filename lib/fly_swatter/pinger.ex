@@ -28,7 +28,7 @@ defmodule FlySwatter.Pinger do
       |> DynamicClient.do_request(stack)
 
     stop = System.monotonic_time()
-    resp_time = (start - stop) / 1_000_000
+    resp_time = (stop - start) / 1_000_000
 
     Logger.info("Sending ping data to Logflare")
 
