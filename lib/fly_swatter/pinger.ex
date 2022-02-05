@@ -21,13 +21,18 @@ defmodule FlySwatter.Pinger do
   def handle_info(:ping, stack) do
     Logger.info("Pinging...")
 
+    start = System.monotonic_time()
+
     response =
       DynamicClient.new(stack)
       |> DynamicClient.do_request(stack)
 
+    stop = System.monotonic_time()
+    resp_time = (start - stop) / 1_000_000
+
     Logger.info("Sending ping data to Logflare")
 
-    {_status, _response} = to_logflare(response)
+    {_status, _response} = to_logflare(response, resp_time)
 
     Logger.info("Scheduling next ping")
     ping()
@@ -39,10 +44,11 @@ defmodule FlySwatter.Pinger do
     Process.send_after(self(), :ping, delay)
   end
 
-  defp to_logflare({:error, reason}) do
+  defp to_logflare({:error, reason}, resp_time) do
     metadata = %{
       error: inspect(reason),
       level: :error,
+      resp_time: resp_time,
       region: System.get_env("FLY_REGION", "not found")
     }
 
@@ -52,7 +58,7 @@ defmodule FlySwatter.Pinger do
     |> LogflareClient.post_data(message, metadata)
   end
 
-  defp to_logflare({:ok, response}) do
+  defp to_logflare({:ok, response}, resp_time) do
     {:ok, pg_data} = Jason.decode(response.body)
 
     metadata = %{
@@ -61,6 +67,7 @@ defmodule FlySwatter.Pinger do
       url: response.url,
       method: response.method,
       pg_data: pg_data,
+      resp_time: resp_time,
       region: System.get_env("FLY_REGION", "not found")
     }
 
