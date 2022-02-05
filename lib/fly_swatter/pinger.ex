@@ -59,19 +59,35 @@ defmodule FlySwatter.Pinger do
   end
 
   defp to_logflare({:ok, response}, resp_time) do
-    {:ok, pg_data} = Jason.decode(response.body)
+    region = System.get_env("FLY_REGION", "not found")
 
-    metadata = %{
-      status_code: response.status,
-      level: :info,
-      url: response.url,
-      method: response.method,
-      pg_data: pg_data,
-      resp_time: resp_time,
-      region: System.get_env("FLY_REGION", "not found")
-    }
+    metadata =
+      case Jason.decode(response.body) do
+        {:ok, pg_data} ->
+          %{
+            status_code: response.status,
+            level: :info,
+            url: response.url,
+            method: response.method,
+            pg_data: pg_data,
+            resp_time: resp_time,
+            region: region
+          }
 
-    message = "Pinged " <> response.url <> " successfully"
+        {:error, html} ->
+          %{
+            status_code: response.status,
+            level: :info,
+            url: response.url,
+            method: response.method,
+            resp_time: resp_time,
+            resp_string: html,
+            region: region
+          }
+      end
+
+    message =
+      "URL: #{response.url} | Region: #{region} | Status code: #{response.status} | Response time: #{resp_time} ms"
 
     LogflareClient.new()
     |> LogflareClient.post_data(message, metadata)
