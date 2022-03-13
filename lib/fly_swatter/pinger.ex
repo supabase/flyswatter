@@ -71,8 +71,7 @@ defmodule FlySwatter.Pinger do
       region: region
     }
 
-    message =
-      "URL: #{response.url} | Region: #{region} | Status code: #{response.status} | Response time: #{resp_time} ms"
+    message = "#{response.url} | #{region} | #{response.status} | #{resp_time}"
 
     LogflareClient.new()
     |> LogflareClient.post_data(message, metadata)
