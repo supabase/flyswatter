@@ -5,17 +5,19 @@ defmodule FlySwatter.DynamicClient do
       when is_list(headers) do
     middleware = [
       {Tesla.Middleware.BaseUrl, scheme <> "://" <> host},
-      {Tesla.Middleware.Headers, merge_headers(headers)}
+      {Tesla.Middleware.Headers, merge_headers(headers)},
+      Tesla.Middleware.JSON
     ]
 
     Tesla.client(middleware)
   end
 
-  def do_request(client, %{uri: %URI{path: path} = uri}) when is_nil(path),
-    do: do_request(client, %{uri: Map.put(uri, "path", "/")})
+  def do_request(client, %{uri: %URI{} = uri, method: :get} = _stack) do
+    Tesla.get(client, URI.to_string(uri))
+  end
 
-  def do_request(client, %{uri: %URI{path: path}} = _stack) do
-    Tesla.get(client, path)
+  def do_request(client, %{uri: %URI{} = uri, method: :post} = _stack) do
+    Tesla.post(client, URI.to_string(uri), %{})
   end
 
   defp merge_headers(headers) do

@@ -27,14 +27,14 @@ defmodule FlySwatter.LogflareClient do
   end
 
   defp logflare_api_key() do
-    System.get_env("FS_LOGFLARE_API_KEY")
+    System.get_env("FS_LOGFLARE_API_KEY") || "not found"
   end
 
   defp logflare_source() do
-    System.get_env("FS_LOGFLARE_SOURCE")
+    System.get_env("FS_LOGFLARE_SOURCE") || "not found"
   end
 
   defp logflare_endpoint() do
-    System.get_env("FS_LOGFLARE_ENDPOINT")
+    System.get_env("FS_LOGFLARE_ENDPOINT") || "not found"
   end
 end
