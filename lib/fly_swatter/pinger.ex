@@ -58,26 +58,6 @@ defmodule FlySwatter.Pinger do
     |> LogflareClient.post_data(message, metadata)
   end
 
-  defp to_logflare({:ok, %Tesla.Env{body: body} = response}, resp_time) when is_map(body) do
-    region = System.get_env("FLY_REGION", "not found")
-
-    metadata = %{
-      status_code: response.status,
-      level: :info,
-      url: response.url,
-      method: response.method,
-      pg_data: body,
-      resp_time: resp_time,
-      region: region
-    }
-
-    message =
-      "URL: #{response.url} | Region: #{region} | Status code: #{response.status} | Response time: #{resp_time} ms"
-
-    LogflareClient.new()
-    |> LogflareClient.post_data(message, metadata)
-  end
-
   defp to_logflare({:ok, %Tesla.Env{body: body} = response}, resp_time) when is_binary(body) do
     region = System.get_env("FLY_REGION", "not found")
 
@@ -88,6 +68,26 @@ defmodule FlySwatter.Pinger do
       method: response.method,
       resp_time: resp_time,
       resp_string: response.body,
+      region: region
+    }
+
+    message =
+      "URL: #{response.url} | Region: #{region} | Status code: #{response.status} | Response time: #{resp_time} ms"
+
+    LogflareClient.new()
+    |> LogflareClient.post_data(message, metadata)
+  end
+
+  defp to_logflare({:ok, %Tesla.Env{body: body} = response}, resp_time) do
+    region = System.get_env("FLY_REGION", "not found")
+
+    metadata = %{
+      status_code: response.status,
+      level: :info,
+      url: response.url,
+      method: response.method,
+      pg_data: body,
+      resp_time: resp_time,
       region: region
     }
 
