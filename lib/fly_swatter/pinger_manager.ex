@@ -22,20 +22,29 @@ defmodule FlySwatter.PingerManager do
     {:ok, stack}
   end
 
-  defp fn_beta() do
-    uri = "https://njgfjlqpsydyrpxplfre.functions.supabase.net/hello-world"
+  def fn_beta() do
+    params = [%{"foo" => 1, "bar" => 2}, %{}] |> Enum.random() |> URI.encode_query()
+
+    uri = %URI{
+      scheme: "https",
+      host: "njgfjlqpsydyrpxplfre.functions.supabase.net",
+      path: "/hello-world",
+      query: params
+    }
+
+    method = Enum.random([:post, :get])
 
     %{
-      uri: URI.parse(uri),
+      uri: uri,
       headers: [
         {"authorization",
          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.7beGaAcyg_8eX8GbGqL2ucygXlNgcrXKQoIkvEhZco0"}
       ],
-      method: :post
+      method: method
     }
   end
 
-  defp supabase_com() do
+  def supabase_com() do
     uri = "https://supabase.com"
 
     %{
@@ -45,7 +54,7 @@ defmodule FlySwatter.PingerManager do
     }
   end
 
-  defp my_stack(project_id) do
+  def my_stack(project_id) do
     uri = "https://" <> project_id <> ".supabase.co/rest/v1/metrics?select=*"
 
     %{

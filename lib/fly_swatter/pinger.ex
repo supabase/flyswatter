@@ -5,6 +5,7 @@ defmodule FlySwatter.Pinger do
 
   alias FlySwatter.DynamicClient
   alias FlySwatter.LogflareClient
+  alias FlySwatter.PingerManager
 
   def start_link(%{uri: %URI{}, headers: _headers} = stack) do
     GenServer.start_link(__MODULE__, stack)
@@ -37,6 +38,15 @@ defmodule FlySwatter.Pinger do
     Logger.info("Scheduling next ping")
     ping()
 
+    stack =
+      case stack do
+        %{uri: %URI{host: "njgfjlqpsydyrpxplfre.functions.supabase.net"}} ->
+          PingerManager.fn_beta()
+
+        _stack ->
+          stack
+      end
+
     {:noreply, stack}
   end
 
@@ -50,7 +60,7 @@ defmodule FlySwatter.Pinger do
       level: :error,
       resp_time: resp_time,
       region: System.get_env("FLY_REGION", "not found"),
-      url: URI.to_string(stack.url)
+      url: URI.to_string(stack.uri)
     }
 
     message = "Ping error!!"
