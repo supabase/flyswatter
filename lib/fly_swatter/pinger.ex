@@ -32,7 +32,7 @@ defmodule FlySwatter.Pinger do
 
     Logger.info("Sending ping data to Logflare")
 
-    {_status, _response} = to_logflare(response, resp_time)
+    {_status, _response} = to_logflare(stack, response, resp_time)
 
     Logger.info("Scheduling next ping")
     ping()
@@ -44,12 +44,13 @@ defmodule FlySwatter.Pinger do
     Process.send_after(self(), :ping, delay)
   end
 
-  defp to_logflare({:error, reason}, resp_time) do
+  defp to_logflare(stack, {:error, reason}, resp_time) do
     metadata = %{
       error: inspect(reason),
       level: :error,
       resp_time: resp_time,
-      region: System.get_env("FLY_REGION", "not found")
+      region: System.get_env("FLY_REGION", "not found"),
+      url: URI.to_string(stack.url)
     }
 
     message = "Ping error!!"
@@ -58,7 +59,8 @@ defmodule FlySwatter.Pinger do
     |> LogflareClient.post_data(message, metadata)
   end
 
-  defp to_logflare({:ok, %Tesla.Env{body: body} = response}, resp_time) when is_binary(body) do
+  defp to_logflare(_stack, {:ok, %Tesla.Env{body: body} = response}, resp_time)
+       when is_binary(body) do
     region = System.get_env("FLY_REGION", "not found")
 
     metadata = %{
@@ -77,7 +79,7 @@ defmodule FlySwatter.Pinger do
     |> LogflareClient.post_data(message, metadata)
   end
 
-  defp to_logflare({:ok, %Tesla.Env{body: body} = response}, resp_time) do
+  defp to_logflare(_stack, {:ok, %Tesla.Env{body: body} = response}, resp_time) do
     region = System.get_env("FLY_REGION", "not found")
 
     metadata = %{
