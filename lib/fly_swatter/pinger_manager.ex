@@ -31,10 +31,14 @@ defmodule FlySwatter.PingerManager do
         p -> URI.encode_query(p)
       end
 
+    path =
+      ["/hello-world", nil]
+      |> Enum.random()
+
     uri = %URI{
       scheme: "https",
       host: "scbqtatfcemmhnxjxrhv.functions.supabase.net",
-      path: "/hello-world",
+      path: path,
       query: params
     }
 
