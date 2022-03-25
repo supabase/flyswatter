@@ -23,7 +23,13 @@ defmodule FlySwatter.PingerManager do
   end
 
   def fn_beta() do
-    params = [%{"foo" => 1, "bar" => 2}, %{}] |> Enum.random() |> URI.encode_query()
+    params =
+      [%{"foo" => 1, "bar" => 2}, nil]
+      |> Enum.random()
+      |> case do
+        nil -> nil
+        p -> URI.encode_query(p)
+      end
 
     uri = %URI{
       scheme: "https",
