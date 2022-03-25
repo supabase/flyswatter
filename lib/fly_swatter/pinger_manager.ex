@@ -27,7 +27,7 @@ defmodule FlySwatter.PingerManager do
 
     uri = %URI{
       scheme: "https",
-      host: "njgfjlqpsydyrpxplfre.functions.supabase.net",
+      host: "scbqtatfcemmhnxjxrhv.functions.supabase.net",
       path: "/hello-world",
       query: params
     }
