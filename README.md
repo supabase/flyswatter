@@ -1,5 +1,24 @@
 # FlySwatter
 
+A tool to ping urls and report the data to Logflare.
+
+Use cases:
+  * Continuously ping a function each minute to generate data for function logs
+  * Update data in a Supabase database to constantly generate a Realtime stream to listen to
+  * Check the uptime of a project continuously and report to Logflare
+
+Data:
+  * Data for pings is being sent to the Logflare [Supabase Staging account](https://logflare.app/sources/16363)
+  * Fly logs are sent [here](https://logflare.app/sources/16662)
+
+## Usage
+
+Currently pinged endpoints are static. To add an endpoint:
+  * Create a stack function in `FlySwatter.Stacks` which returns a `%FlySwatter.Stack{}`
+  * Add it to the list of stacks in `FlySwatter.PingerManager.init` 
+
+## Phoenix
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
