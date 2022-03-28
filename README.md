@@ -8,8 +8,9 @@ Use cases:
   * Check the uptime of a project continuously and report to Logflare
 
 Data:
-  * Data for pings is being sent to the Logflare [Supabase Staging account](https://logflare.app/sources/16363)
-  * Fly logs are sent [here](https://logflare.app/sources/16662)
+  * Data for pings is being sent to the Logflare [Supabase Staging account](https://logflare.app/sources/16363) as a simple POST request
+  * Fly logs are sent [here](https://logflare.app/sources/16662) with the Fly log shipper
+  * And the Elixir application logs are being sent to [their own Logflare source](https://logflare.app/sources/19486) via the `LogflareLoggerBackend`
 
 ## Usage
 
