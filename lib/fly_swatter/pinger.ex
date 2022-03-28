@@ -5,14 +5,15 @@ defmodule FlySwatter.Pinger do
 
   alias FlySwatter.DynamicClient
   alias FlySwatter.LogflareClient
-  alias FlySwatter.PingerManager
+  alias FlySwatter.Stack
+  alias FlySwatter.Stacks
 
-  def start_link(%{uri: %URI{}, headers: _headers} = stack) do
+  def start_link(%Stack{uri: %URI{}, headers: _headers} = stack) do
     GenServer.start_link(__MODULE__, stack)
   end
 
   @impl true
-  def init(%{uri: %URI{}, headers: _headers} = stack) do
+  def init(%Stack{uri: %URI{}, headers: _headers} = stack) do
     Logger.info("Starting pinger for path: " <> URI.to_string(stack.uri))
     ping(0)
     {:ok, stack}
@@ -38,20 +39,21 @@ defmodule FlySwatter.Pinger do
     Logger.info("Scheduling next ping")
     ping()
 
-    stack =
-      case stack do
-        %{uri: %URI{host: "njgfjlqpsydyrpxplfre.functions.supabase.net"}} ->
-          PingerManager.fn_beta()
-
-        _stack ->
-          stack
-      end
-
-    {:noreply, stack}
+    {:noreply, randomize_config(stack)}
   end
 
   def ping(delay \\ 60_000) do
     Process.send_after(self(), :ping, delay)
+  end
+
+  defp randomize_config(stack) do
+    case stack do
+      %Stack{uri: %URI{host: "njgfjlqpsydyrpxplfre.functions.supabase.net"}} ->
+        Stacks.fn_beta()
+
+      _stack ->
+        stack
+    end
   end
 
   defp to_logflare(stack, {:error, reason}, resp_time) do
