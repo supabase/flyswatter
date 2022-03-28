@@ -19,15 +19,6 @@ config :logger,
   level: :info,
   backends: [LogflareLogger.HttpBackend]
 
-config :logflare_logger_backend,
-  url: "https://api.logflare.app",
-  level: :info,
-  api_key: System.get_env("FS_LOGFLARE_API_KEY", "not_found"),
-  source_id: System.get_env("FS_LOGFLARE_SOURCE_LOGS", "not_found"),
-  flush_interval: 1_000,
-  max_batch_size: 50,
-  metadata: :all
-
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

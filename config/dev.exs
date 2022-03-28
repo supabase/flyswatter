@@ -55,7 +55,19 @@ config :fly_swatter, FlySwatterWeb.Endpoint,
   ]
 
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+config :logger,
+  level: :info,
+  backends: [:console, LogflareLogger.HttpBackend],
+  format: "[$level] $message\n"
+
+config :logflare_logger_backend,
+  url: "https://api.logflare.app",
+  level: :info,
+  api_key: System.get_env("FS_LOGFLARE_API_KEY", "not_found"),
+  source_id: System.get_env("FS_LOGFLARE_SOURCE_LOGS", "not_found"),
+  flush_interval: 1_000,
+  max_batch_size: 50,
+  metadata: :all
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
