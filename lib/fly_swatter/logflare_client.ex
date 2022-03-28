@@ -1,12 +1,6 @@
 defmodule FlySwatter.LogflareClient do
   use Tesla
 
-  # @logflare_api_key Application.get_env(:fly_swatter, __MODULE__)[:api_key]
-  # @logflare_source Application.get_env(:fly_swatter, __MODULE__)[:source]
-  # @supabase_projects_logflare_endpoint Application.get_env(:fly_swatter, __MODULE__)[
-  #                                       :supabase_projects_endpoint_id
-  #                                     ]
-
   def new() do
     middleware = [
       {Tesla.Middleware.BaseUrl, "https://api.logflare.app"},

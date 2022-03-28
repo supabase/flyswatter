@@ -48,7 +48,9 @@ defmodule FlySwatter.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:tesla, "~> 1.4.3"},
       {:finch, "~> 0.9.0"},
-      {:mime, "~> 2.0.2", override: true}
+      {:mime, "~> 2.0.2", override: true},
+      {:logflare_logger_backend, "~> 0.11.0"},
+      {:mint, "~> 1.4.1", override: true}
     ]
   end
 

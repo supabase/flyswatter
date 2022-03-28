@@ -14,7 +14,19 @@ config :fly_swatter, FlySwatterWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger,
+  # or other Logger level
+  level: :info,
+  backends: [LogflareLogger.HttpBackend]
+
+config :logflare_logger_backend,
+  url: "https://api.logflare.app",
+  level: :info,
+  api_key: System.get_env("FS_LOGFLARE_API_KEY", "not_found"),
+  source_id: System.get_env("FS_LOGFLARE_SOURCE_LOGS", "not_found"),
+  flush_interval: 1_000,
+  max_batch_size: 50,
+  metadata: :all
 
 # ## SSL Support
 #
