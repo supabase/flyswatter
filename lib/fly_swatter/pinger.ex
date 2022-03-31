@@ -40,9 +40,16 @@ defmodule FlySwatter.Pinger do
 
     Logger.info("Sending ping data to Logflare")
 
-    {_status, response} = to_logflare(stack, response, resp_time)
+    case to_logflare(stack, response, resp_time) do
+      {:ok, %Tesla.Env{status: 200}} ->
+        :noop
 
-    Logger.info(inspect(response))
+      {:ok, %Tesla.Env{}} = response ->
+        Logger.warn("Non 200 response from Logflare", error_string: inspect(response))
+
+      {:error, response} ->
+        Logger.error("Logflare request error", error_string: inspect(response))
+    end
 
     Logger.info("Scheduling next ping")
     ping(stack.every)
@@ -93,7 +100,17 @@ defmodule FlySwatter.Pinger do
         {:ok, %PrometheusParser.Line{line_type: "COMMENT"}} -> true
         {:ok, _y} -> false
       end)
-      |> Enum.map(fn {_x, y} -> y end)
+      |> Enum.map(fn {_x, y} ->
+        m = Map.from_struct(y)
+
+        int =
+          case Integer.parse(m.value) do
+            {int, _rem} -> int
+            :error -> nil
+          end
+
+        Map.put(m, :value, int)
+      end)
 
     metadata = %{
       status_code: response.status,
@@ -152,7 +169,7 @@ defmodule FlySwatter.Pinger do
   end
 
   defp get_region() do
-    System.get_env("FLY_REGION", "env_not_set")
+    System.get_env("FLY_REGION", "fra")
     |> String.to_atom()
   end
 end
