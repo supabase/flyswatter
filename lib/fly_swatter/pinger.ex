@@ -103,13 +103,15 @@ defmodule FlySwatter.Pinger do
       |> Enum.map(fn {_x, y} ->
         m = Map.from_struct(y)
 
+        pairs = Enum.map(m.pairs, fn {x, y} -> x <> ":" <> y end)
+
         int =
           case Integer.parse(m.value) do
             {int, _rem} -> int
             :error -> nil
           end
 
-        Map.put(m, :value, int)
+        m |> Map.put(:value, int) |> Map.put(:pairs, pairs)
       end)
 
     metadata = %{
