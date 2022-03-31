@@ -40,7 +40,9 @@ defmodule FlySwatter.Pinger do
 
     Logger.info("Sending ping data to Logflare")
 
-    {_status, _response} = to_logflare(stack, response, resp_time)
+    {_status, response} = to_logflare(stack, response, resp_time)
+
+    Logger.info(inspect(response))
 
     Logger.info("Scheduling next ping")
     ping(stack.every)
