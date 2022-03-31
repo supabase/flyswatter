@@ -132,7 +132,7 @@ defmodule FlySwatter.Pinger do
   end
 
   defp to_logflare(_stack, {:ok, %Tesla.Env{body: body} = response}, resp_time)
-       when is_map(body) do
+       when is_map(body) or is_list(body) do
     region = get_region()
 
     metadata = %{
