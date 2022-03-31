@@ -93,8 +93,6 @@ defmodule FlySwatter.Pinger do
       end)
       |> Enum.map(fn {_x, y} -> y end)
 
-    IO.inspect(json)
-
     metadata = %{
       status_code: response.status,
       level: :info,
