@@ -98,7 +98,7 @@ defmodule FlySwatter.Pinger do
       level: :info,
       url: response.url,
       method: response.method,
-      json: json,
+      prom: json,
       resp_time: resp_time,
       region: region
     }
@@ -138,7 +138,7 @@ defmodule FlySwatter.Pinger do
       level: :info,
       url: response.url,
       method: response.method,
-      json: body,
+      pg_data: body,
       resp_time: resp_time,
       region: region
     }
