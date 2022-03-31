@@ -14,11 +14,15 @@ defmodule FlySwatter.PingerManager do
     stacks = [
       Stacks.fn_beta(),
       Stacks.supabase_com(),
-      Stacks.my_stack("ixlqpcigbdlbmfnvzxtw")
+      Stacks.my_stack("ixlqpcigbdlbmfnvzxtw"),
+      Stacks.realtime_prom()
     ]
 
     for s <- stacks do
-      DynamicSupervisor.start_child(FlySwatter.DynamicSupervisor, {FlySwatter.Pinger, s})
+      case DynamicSupervisor.start_child(FlySwatter.DynamicSupervisor, {FlySwatter.Pinger, s}) do
+        {:ok, _pid} -> :noop
+        {:error, reason} -> Logger.warn("Stack not started: #{reason}")
+      end
     end
 
     {:ok, args}

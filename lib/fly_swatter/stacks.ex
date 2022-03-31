@@ -56,6 +56,17 @@ defmodule FlySwatter.Stacks do
     }
   end
 
+  def realtime_prom() do
+    %Stack{
+      uri: URI.parse("https://realtime-demo.fly.dev/metrics"),
+      headers: [],
+      method: :get,
+      parser: :prom,
+      every: 5_000,
+      regions: [:fra]
+    }
+  end
+
   defp supabase_key() do
     System.get_env("FS_SUPABASE_KEY") || "blah"
   end
