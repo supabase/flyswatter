@@ -16,8 +16,8 @@ defmodule FlySwatter.DynamicClient do
     Tesla.get(client, URI.to_string(uri))
   end
 
-  def do_request(client, %{uri: %URI{} = uri, method: :post} = _stack) do
-    Tesla.post(client, URI.to_string(uri), %{})
+  def do_request(client, %{uri: %URI{} = uri, method: :post, body: body} = _stack) do
+    Tesla.post(client, URI.to_string(uri), body)
   end
 
   defp merge_headers(headers) do

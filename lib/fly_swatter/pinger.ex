@@ -63,7 +63,7 @@ defmodule FlySwatter.Pinger do
 
   defp randomize_config(stack) do
     case stack do
-      %Stack{uri: %URI{host: "njgfjlqpsydyrpxplfre.functions.supabase.net"}} ->
+      %Stack{uri: %URI{host: "scbqtatfcemmhnxjxrhv.functions.supabase.co"}} ->
         Stacks.fn_beta()
 
       _stack ->
@@ -102,7 +102,6 @@ defmodule FlySwatter.Pinger do
       end)
       |> Enum.map(fn {_x, y} ->
         m = Map.from_struct(y)
-
         pairs = Enum.map(m.pairs, fn {x, y} -> x <> ":" <> y end)
 
         int =

@@ -2,34 +2,28 @@ defmodule FlySwatter.Stacks do
   alias FlySwatter.Stack
 
   def fn_beta() do
-    params =
-      [%{"foo" => 1, "bar" => 2}, nil]
-      |> Enum.random()
-      |> case do
-        nil -> nil
-        p -> URI.encode_query(p)
-      end
+    body = %{"name" => "Functions"}
 
     path =
-      ["/hello-world", nil]
+      ["/hello"]
       |> Enum.random()
 
     uri = %URI{
       scheme: "https",
-      host: "scbqtatfcemmhnxjxrhv.functions.supabase.net",
+      host: "scbqtatfcemmhnxjxrhv.functions.supabase.co",
       path: path,
-      query: params
+      query: nil
     }
 
-    method = Enum.random([:post, :get])
+    method = Enum.random([:post])
 
     %Stack{
       uri: uri,
       headers: [
-        {"authorization",
-         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.7beGaAcyg_8eX8GbGqL2ucygXlNgcrXKQoIkvEhZco0"}
+        {"authorization", "Bearer " <> System.get_env("FS_FN_ANON_KEY", "bearer not found")}
       ],
-      method: method
+      method: method,
+      body: body
     }
   end
 

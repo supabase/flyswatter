@@ -1,6 +1,12 @@
 defmodule FlySwatter.Stack do
   @enforce_keys [:uri, :headers, :method]
-  defstruct uri: "", headers: [], method: :get, parser: :json, every: 60_000, regions: [:all]
+  defstruct uri: "",
+            headers: [],
+            method: :get,
+            parser: :json,
+            every: 60_000,
+            regions: [:all],
+            body: %{}
 
   @type t :: %FlySwatter.Stack{
           uri: %URI{},
@@ -8,6 +14,7 @@ defmodule FlySwatter.Stack do
           method: :atom,
           parser: :atom,
           every: non_neg_integer(),
-          regions: [:atom]
+          regions: [:atom],
+          body: map()
         }
 end
