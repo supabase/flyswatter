@@ -52,7 +52,8 @@ defmodule FlySwatter.MixProject do
       {:logflare_logger_backend, "~> 0.11.0"},
       {:mint, "~> 1.4.1", override: true},
       {:prometheus_parser,
-       git: "https://github.com/Logflare/turnio-prometheus-parser", branch: "master"}
+       git: "https://github.com/Logflare/turnio-prometheus-parser", branch: "master"},
+      {:gen_stage, "~> 1.1.2"}
     ]
   end
 

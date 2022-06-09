@@ -57,7 +57,8 @@ config :fly_swatter, FlySwatterWeb.Endpoint,
 # Do not include metadata nor timestamps in development logs
 config :logger,
   level: :info,
-  backends: [:console, LogflareLogger.HttpBackend],
+  # backends: [:console, LogflareLogger.HttpBackend],
+  backends: [:console],
   format: "[$level] $message\n"
 
 config :logflare_logger_backend,

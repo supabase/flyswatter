@@ -17,7 +17,9 @@ defmodule FlySwatter.Application do
       # Start a worker by calling: FlySwatter.Worker.start_link(arg)
       # {FlySwatter.Worker, arg}
       {Finch, name: FlySwatter.Finch},
-      FlySwatter.PingerSupervisor
+      FlySwatter.PingerSupervisor,
+      FlySwatter.StackProducer,
+      FlySwatter.StackConsumerSupervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
