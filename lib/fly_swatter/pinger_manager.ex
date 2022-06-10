@@ -15,7 +15,8 @@ defmodule FlySwatter.PingerManager do
       Stacks.fn_beta(),
       Stacks.supabase_com(),
       Stacks.my_stack("ixlqpcigbdlbmfnvzxtw"),
-      Stacks.realtime_prom()
+      Stacks.realtime_prom(),
+      Stacks.book_club()
     ]
 
     for s <- stacks do

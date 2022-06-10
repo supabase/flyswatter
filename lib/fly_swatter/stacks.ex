@@ -91,6 +91,17 @@ defmodule FlySwatter.Stacks do
     }
   end
 
+  def book_club() do
+    %Stack{
+      uri: URI.parse("https://book-club.fly.dev/repos/13/requests/new"),
+      headers: [],
+      method: :post,
+      parser: :prom,
+      every: 5_000,
+      regions: [:fra]
+    }
+  end
+
   defp supabase_key() do
     System.get_env("FS_SUPABASE_KEY") || "blah"
   end
