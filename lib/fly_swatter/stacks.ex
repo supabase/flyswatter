@@ -193,7 +193,7 @@ defmodule FlySwatter.Stacks do
       level: :info,
       url: response.url,
       method: response.method,
-      pg_data: body,
+      json: body,
       resp_time: resp_time,
       region: region
     }
