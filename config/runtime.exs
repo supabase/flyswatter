@@ -7,6 +7,10 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 
+if System.get_env("PHX_SERVER") do
+  config :fly_swatter, FlySwatterWeb.Endpoint, server: true
+end
+
 if config_env() == :prod do
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
@@ -23,6 +27,8 @@ if config_env() == :prod do
   app_name =
     System.get_env("FLY_APP_NAME") ||
       raise "FLY_APP_NAME not available"
+
+  host = System.get_env("PHX_HOST") || "example.com"
 
   config :fly_swatter, FlySwatterWeb.Endpoint,
     server: true,
@@ -50,6 +56,19 @@ if config_env() == :prod do
     flush_interval: 1_000,
     max_batch_size: 50,
     metadata: :all
+
+  config :libcluster,
+    debug: true,
+    topologies: [
+      fly6pn: [
+        strategy: Cluster.Strategy.DNSPoll,
+        config: [
+          polling_interval: 5_000,
+          query: "#{app_name}.internal",
+          node_basename: app_name
+        ]
+      ]
+    ]
 
   # ## Using releases
   #

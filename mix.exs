@@ -33,7 +33,7 @@ defmodule FlySwatter.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.2"},
+      {:phoenix, "~> 1.6.11"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.16.0"},
@@ -53,7 +53,8 @@ defmodule FlySwatter.MixProject do
       {:mint, "~> 1.4.1", override: true},
       {:prometheus_parser,
        git: "https://github.com/Logflare/turnio-prometheus-parser", branch: "master"},
-      {:gen_stage, "~> 1.1.2"}
+      {:gen_stage, "~> 1.1.2"},
+      {:libcluster, "~> 3.3.0"}
     ]
   end
 

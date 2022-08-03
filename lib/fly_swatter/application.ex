@@ -7,6 +7,8 @@ defmodule FlySwatter.Application do
 
   @impl true
   def start(_type, _args) do
+    topologies = Application.get_env(:libcluster, :topologies) || []
+
     children = [
       # Start the Telemetry supervisor
       FlySwatterWeb.Telemetry,
@@ -17,6 +19,7 @@ defmodule FlySwatter.Application do
       # Start a worker by calling: FlySwatter.Worker.start_link(arg)
       # {FlySwatter.Worker, arg}
       {Finch, name: FlySwatter.Finch},
+      {Cluster.Supervisor, [topologies, [name: FlySwatter.ClusterSupervisor]]},
       FlySwatter.PingerSupervisor,
       FlySwatter.StackProducer,
       FlySwatter.StackConsumerSupervisor
