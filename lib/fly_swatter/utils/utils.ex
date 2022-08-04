@@ -15,11 +15,13 @@ defmodule FlySwatter.Utils do
   end
 
   def run_global_locks(its) when is_integer(its) do
-    Logger.info("Setting #{its} locks")
+    name = Ecto.UUID.generate()
 
-    for i <- 0..its do
-      :global.set_lock({__MODULE__, i})
-      :global.del_lock({__MODULE__, i})
+    Logger.info("Setting #{name} lock")
+
+    for _i <- 0..its do
+      :global.set_lock({__MODULE__, name})
+      :global.del_lock({__MODULE__, name})
     end
   end
 end
