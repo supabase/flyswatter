@@ -1,12 +1,13 @@
-# fly.toml file generated for fly-swatter on 2021-10-22T11:43:31-07:00
+# fly.toml file generated for fly-swatter-dev on 2022-08-03T17:57:48-07:00
 
-app = "fly-swatter"
-
-kill_signal = "SIGINT"
+app = "fly-swatter-dev"
+kill_signal = "SIGTERM"
 kill_timeout = 5
 processes = []
 
 [env]
+  PHX_HOST = "fly-swatter-dev.fly.dev"
+  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
@@ -18,7 +19,6 @@ processes = []
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
-
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20
@@ -33,7 +33,7 @@ processes = []
     port = 443
 
   [[services.tcp_checks]]
-    grace_period = "30s" # allow some time for startup
+    grace_period = "30s"
     interval = "15s"
     restart_limit = 6
     timeout = "2s"
