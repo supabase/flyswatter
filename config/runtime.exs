@@ -32,7 +32,7 @@ if config_env() == :prod do
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :fly_swatter, FlySwatterWeb.Endpoint,
-    url: [host: host, port: 443],
+    url: [host: host, port: 443, scheme: "https"],
     check_origin: :conn,
     http: [
       # Enable IPv6 and bind on all interfaces.
