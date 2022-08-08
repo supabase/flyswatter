@@ -4,7 +4,7 @@ defmodule FlySwatter.MixProject do
   def project do
     [
       app: :fly_swatter,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:gettext] ++ Mix.compilers(),
