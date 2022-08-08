@@ -28,7 +28,7 @@ defmodule FlySwatter.Pinger do
   def handle_info(:ping, stack) do
     StackProducer.ping_stacks([stack])
 
-    Logger.info("Scheduling next ping")
+    Logger.info("Scheduling next ping now")
     ping(stack.every)
 
     {:noreply, randomize_config(stack)}
