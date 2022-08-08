@@ -9,6 +9,9 @@ processes = []
   PHX_HOST = "fly-swatter-dev.fly.dev"
   PORT = "8080"
 
+[deploy]
+  strategy = "canary"
+
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
