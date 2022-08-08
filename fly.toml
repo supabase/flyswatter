@@ -10,7 +10,7 @@ processes = []
   PORT = "8080"
 
 [deploy]
-  strategy = "canary"
+  strategy = "bluegreen"
 
 [experimental]
   allowed_public_ports = []
